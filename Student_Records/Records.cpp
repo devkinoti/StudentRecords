@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
 
 //using namespace std;
 using std::cout;
@@ -23,6 +24,22 @@ struct Student
 	std::string sex;
 	Score score;
 
+	void save(std::ofstream& fout) const
+	{
+		fout << "Student Records" << endl;
+		fout << "===============" << endl;
+		fout << "Student_id :" << student_id << endl;
+		fout << "Student name : " << name << endl;
+		fout << "Student gender : " << sex << endl;
+		fout << "Student cat one score : " << score.cat_one_score << endl;
+		fout << "Student cat two score : " << score.cat_two_score << endl;
+		fout << "Student mid term score : " << score.mid_term << endl;
+		fout << "Student final score : " << score.final_score << endl;
+		fout << "Student total score : " << score.total_score << endl;
+		fout << endl;
+		fout << endl;
+	}
+
 };
 
 
@@ -33,10 +50,11 @@ void update_student(std::vector<Student*>& std_db);
 void view_all_student_records(std::vector<Student*>& std_db);
 void get_student_score(std::vector<Student*>& std_db);
 void get_average_score(std::vector<Student*>& std_db);
-void get_student_min_total_score(std::vector<Student*>& std_db); //bug
-void get_student_max_total_score(std::vector<Student*>& std_db); //bug
+void get_student_min_total_score(std::vector<Student*>& std_db); 
+void get_student_max_total_score(std::vector<Student*>& std_db); 
 void find_student_by_id(std::vector<Student*>& std_db);
 void sort_by_total_score(std::vector<Student*>& std_db);
+void save_all_student_records(std::vector<Student*>& std_db);
 
 
 int main()
@@ -65,7 +83,8 @@ int main()
 		cout << "8) Show student who gets min total score " << endl;
 		cout << "9) Find student by Id" << endl;
 		cout << "10) sort records by total scores " << endl;
-		cout << "11) Exit the program " << endl;
+		cout << "11) Save all student records " << endl;
+		cout << "12) Exit the program " << endl;
 
 		cout << "Enter your choice " << endl;
 		cin >> choice;
@@ -188,6 +207,17 @@ int main()
 
 			break;
 		case 11:
+			cout << "saving all student data records to a file " << endl;
+			if (student_db.size() > 0)
+			{
+				save_all_student_records(student_db);
+			}
+			else
+			{
+				cout << "No records in student database " << endl;
+			}
+			break;
+		case 12:
 			cout << "quitting the program " << endl;
 			done = true;
 			break;
@@ -503,4 +533,16 @@ void get_student_max_total_score(std::vector<Student*>& std_db)
 	cout << "The student with max total score: " << endl;
 	cout << std_db.back()->name << " ";
 	cout << std_db.back()->score.total_score << endl;
+}
+
+void save_all_student_records(std::vector<Student*>& std_db)
+{
+	std::ofstream fout("student_data.txt");
+	for (size_t i = 0; i < std_db.size(); ++i)
+	{
+		std_db[i]->save(fout);
+	}
+
+	fout.close();
+
 }
