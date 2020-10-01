@@ -56,7 +56,7 @@ void find_student_by_id(std::vector<Student*>& std_db);
 void sort_by_total_score(std::vector<Student*>& std_db);
 void save_all_student_records(std::vector<Student*>& std_db);
 
-
+/***************Main Function******************/
 int main()
 {
 	//a way to store students
@@ -546,3 +546,4 @@ void save_all_student_records(std::vector<Student*>& std_db)
 	fout.close();
 
 }
+/***********************PROGRAM ENDS***********************/
